@@ -10,11 +10,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="typography.css">
-  <link rel="stylesheet" href="style.css?v=optimized-images-1">
-  <script src="config.js?v=optimized-images-1" defer></script>
+  <link rel="stylesheet" href="typography.css?v=20260914-approved-2">
+  <link rel="stylesheet" href="style.css?v=20260914-approved-2">
+  <script src="config.js?v=20260914-approved-2" defer></script>
   <script src="assets/qrcode.js" defer></script>
-  <script src="app.js?v=optimized-images-1" defer></script>
+  <script src="app.js?v=20260914-approved-2" defer></script>
 </head>
 <body>
   <aside class="desktop" aria-label="Откройте приглашение на телефоне">
@@ -119,8 +119,9 @@
       <p class="eyebrow">ПРОГРАММА ДНЯ</p>
       <h2 id="schedule-title">У нас<br><em>есть план</em></h2>
       <ol class="day-plan">
-        <li><span class="plan-number" aria-hidden="true">01</span><div><h3><time datetime="15:30">15:30</time></h3><p>Встречаемся у шатра</p></div></li>
-        <li><span class="plan-number" aria-hidden="true">02</span><div><h3><time datetime="22:00">22:00</time></h3><p>Обнимаемся и прощаемся</p></div></li>
+        <li><span class="plan-number" aria-hidden="true">01</span><div><h3><time datetime="14:30">14:30</time></h3><p>Встречаемся у шатра</p></div></li>
+        <li><span class="plan-number" aria-hidden="true">02</span><div><h3><time datetime="15:30">15:30</time></h3><p>Начинаем наш праздник</p></div></li>
+        <li><span class="plan-number" aria-hidden="true">03</span><div><h3><time datetime="22:00">22:00</time></h3><p>Обнимаемся и прощаемся</p></div></li>
       </ol>
       <p class="plan-closing">Всё главное — <em>в одной компании.</em></p>
     </section>
@@ -149,14 +150,18 @@
     <div class="autumn-bridge" aria-hidden="true"><img src="assets/oak-acorns.webp" alt="" loading="lazy" width="300" height="120"></div>
 
     <section class="gifts section" id="gifts" aria-labelledby="gifts-title">
-      <p class="eyebrow">О ПОДАРКАХ</p>
-      <h2 id="gifts-title">Чтобы<br><em>не гадать</em></h2>
-      <div class="gift-illustration" aria-hidden="true"><img src="assets/gift-line.webp" alt="" loading="lazy" width="140" height="150"></div>
-      <p class="body-copy">Соберём наши пожелания в одном списке, чтобы вам было проще выбрать подарок.</p>
-      <a class="action-link" id="gift-link" hidden target="_blank" rel="noopener noreferrer">Посмотреть список <span aria-hidden="true">↗</span></a>
-      <button class="action-link pending-link" id="gift-pending" type="button" disabled>Список подарков — скоро</button>
-      <p class="gift-note">Добавим его сюда чуть позже.</p>
-      <div class="flower-note"><p class="eyebrow">О ЦВЕТАХ</p><p class="body-copy">Вместо букетов мы будем рады бутылочке хорошего вина.</p></div>
+      <p class="eyebrow">О ЦВЕТАХ</p>
+      <h2 id="gifts-title">Лучше<br><em>вино</em></h2>
+      <p class="body-copy">Вместо букетов будем рады бутылочке хорошего вина. Откроем её в один из особенных дней и вспомним нашу встречу.</p>
+      <div class="gift-details">
+        <h3 class="eyebrow">О ПОДАРКАХ</h3>
+        <div class="gift-illustration" aria-hidden="true"><img src="assets/gift-line.webp" alt="" loading="lazy" width="140" height="150"></div>
+        <p class="body-copy">Если захотите поздравить нас подарком, будем благодарны за вклад в наши общие планы. Конверт с тёплыми пожеланиями — отличный вариант.</p>
+        <p class="wishlist-copy">Если вы всё же категорически хотите подарить настоящий подарок, загляните в наш список пожеланий.</p>
+        <a class="action-link" id="gift-link" hidden target="_blank" rel="noopener noreferrer">Посмотреть список <span aria-hidden="true">↗</span></a>
+        <button class="action-link pending-link" id="gift-pending" type="button" disabled>Список подарков — скоро</button>
+        <p class="gift-note">Добавим его сюда чуть позже.</p>
+      </div>
     </section>
     <section class="rsvp section" id="rsvp" aria-labelledby="rsvp-title">
       <p class="eyebrow">АНКЕТА ГОСТЯ</p>

@@ -78,6 +78,7 @@
       track.replaceChildren(...settings.galleryPhotos.map((src, index) => {
         const slide = document.createElement('div');
         slide.className = 'photo-slide';
+        if (settings.galleryCoverPhotos?.includes(src)) slide.classList.add('photo-slide--cover');
         slide.setAttribute('role', 'group');
         slide.setAttribute('aria-label', `${index + 1} из ${settings.galleryPhotos.length}`);
         const img = document.createElement('img');

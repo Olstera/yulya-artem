@@ -553,7 +553,7 @@ a:focus-visible {
   text-decoration: none;
   padding: 21px 20px;
   margin: 18px -6px 0;
-  font-size: var(--font-ux-size);
+  font-size: var(--font-button-size);
   line-height: 1.4;
   transition: background .2s;
 }
@@ -903,7 +903,7 @@ html.design-preview .welcome {
   border-radius: var(--radius);
   padding: 20px;
   font-family: var(--sans);
-  font-size: var(--font-ux-size);
+  font-size: var(--font-button-size);
   line-height: 1.4;
   background: var(--olive);
   color: var(--paper);
@@ -1377,13 +1377,13 @@ button:focus-visible {
   padding-top: 32px;
 }
 
-.flower-note {
+.gift-details {
   border-top: 1px solid var(--line);
   margin-top: 30px;
   padding-top: 24px;
 }
 
-.flower-note .body-copy {
+.gift-details .body-copy {
   margin: 12px 0 0;
 }
 
@@ -1425,10 +1425,7 @@ button:focus-visible {
   object-fit: contain;
 }
 
-.photo-slide:nth-child(1) img,
-.photo-slide:nth-child(2) img,
-.photo-slide:nth-child(4) img,
-.photo-slide:nth-child(5) img {
+.photo-slide--cover img {
   object-fit: cover;
 }
 
@@ -1479,3 +1476,8 @@ button:focus-visible {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
+
+/* Wine takes the lead; the wishlist stays visually secondary. */
+.gift-details .gift-illustration { margin: 22px auto; }
+.gift-details .body-copy { margin-bottom: 20px; }
+.wishlist-copy { font-size: 12px; line-height: 1.5; margin: 0 0 18px; }
