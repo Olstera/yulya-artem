@@ -51,6 +51,8 @@
     if (settings.photoUrl) {
       const frame = document.querySelector('#couple-photo');
       const image = document.createElement('img');
+      image.fetchPriority = 'high';
+      image.decoding = 'async';
       image.src = settings.photoUrl;
       image.alt = 'Юлия и Артём';
       frame.querySelector('.photo-inner').replaceChildren(image);

@@ -11,10 +11,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="typography.css">
-  <link rel="stylesheet" href="style.css?v=element-motion-4">
-  <script src="config.js?v=rsvp-live-1" defer></script>
+  <link rel="stylesheet" href="style.css?v=optimized-images-1">
+  <script src="config.js?v=optimized-images-1" defer></script>
   <script src="assets/qrcode.js" defer></script>
-  <script src="app.js?v=element-motion-4" defer></script>
+  <script src="app.js?v=optimized-images-1" defer></script>
 </head>
 <body>
   <aside class="desktop" aria-label="Откройте приглашение на телефоне">
@@ -33,8 +33,8 @@
   <main class="invitation" id="invitation">
     <section class="hero" aria-labelledby="couple-names">
       <div class="photo-composition">
-        <img class="photo-branch photo-branch--right" src="assets/maple-twig.png" alt="" aria-hidden="true" width="116" height="290">
-        <img class="photo-branch photo-branch--left" src="assets/maple-twig.png" alt="" aria-hidden="true" width="116" height="290">
+        <img class="photo-branch photo-branch--right" src="assets/maple-twig.webp" alt="" aria-hidden="true" width="116" height="290">
+        <img class="photo-branch photo-branch--left" src="assets/maple-twig.webp" alt="" aria-hidden="true" width="116" height="290">
       <div class="photo-frame" id="couple-photo" role="img" aria-label="Место для фотографии Юлии и Артёма">
         <div class="photo-inner">
           <span class="photo-monogram" aria-hidden="true">Ю<span>&</span>А</span>
@@ -46,7 +46,7 @@
       <div class="names-composition">
         <h1 id="couple-names"><span class="bride-name">Юлия</span><span class="ampersand" aria-hidden="true">&</span><span class="groom-name">Артём</span><span class="sr-only"> — наша свадьба</span></h1>
       </div>
-      <div class="hero-pumpkin" aria-hidden="true"><img src="assets/pumpkin-autumn.png" alt="" width="100" height="76"></div>
+      <div class="hero-pumpkin" aria-hidden="true"><img src="assets/pumpkin-autumn.webp" alt="" width="100" height="76"></div>
       <div class="hero-bottom"><span>ТОТ САМЫЙ ДЕНЬ</span><a href="#welcome" aria-label="Перейти к приглашению"><svg viewBox="0 0 24 34" aria-hidden="true"><path d="M12 1v30M4 23l8 8 8-8"/></svg></a></div>
     </section>
 
@@ -67,7 +67,7 @@
         </div>
       </div>
       <p class="date-caption">суббота, 17 октября</p>
-      <div class="botanical-divider"><span></span><img class="autumn-art" src="assets/autumn-engraving.png" alt="" width="112" height="152"><span></span></div>
+      <div class="botanical-divider"><span></span><img class="autumn-art" src="assets/autumn-engraving.webp" alt="" width="112" height="152"><span></span></div>
       <p class="closing-line">Самое тёплое в этой осени — <em>вы рядом.</em></p>
     </section>
 
@@ -146,12 +146,12 @@
       </div>
     </section>
 
-    <div class="autumn-bridge" aria-hidden="true"><img src="assets/oak-acorns.png" alt="" loading="lazy" width="300" height="120"></div>
+    <div class="autumn-bridge" aria-hidden="true"><img src="assets/oak-acorns.webp" alt="" loading="lazy" width="300" height="120"></div>
 
     <section class="gifts section" id="gifts" aria-labelledby="gifts-title">
       <p class="eyebrow">О ПОДАРКАХ</p>
       <h2 id="gifts-title">Чтобы<br><em>не гадать</em></h2>
-      <div class="gift-illustration" aria-hidden="true"><img src="assets/gift-line.png" alt="" loading="lazy" width="140" height="150"></div>
+      <div class="gift-illustration" aria-hidden="true"><img src="assets/gift-line.webp" alt="" loading="lazy" width="140" height="150"></div>
       <p class="body-copy">Соберём наши пожелания в одном списке, чтобы вам было проще выбрать подарок.</p>
       <a class="action-link" id="gift-link" hidden target="_blank" rel="noopener noreferrer">Посмотреть список <span aria-hidden="true">↗</span></a>
       <button class="action-link pending-link" id="gift-pending" type="button" disabled>Список подарков — скоро</button>
@@ -185,15 +185,15 @@
           <div id="parking-fields" hidden><label class="form-label" for="car-plate">Номер автомобиля с регионом</label><input id="car-plate" name="carPlate" maxlength="30" placeholder="А123ВС 777"><p class="form-hint">Нужен для пропуска на территорию.</p></div>
         </div>
         <label class="form-label" for="guest-comment">Что ещё нам стоит знать?</label><textarea id="guest-comment" name="comment" rows="3" maxlength="1500" placeholder="Например, аллергии или особенности питания"></textarea>
-        <button class="action-link rsvp-submit" type="submit">Отправить ответ <span aria-hidden="true">↗</span></button>
+        <button class="action-link rsvp-submit" type="submit">Отправить ответ <svg class="button-arrow" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M5 19 19 5M5 5h14v14"/></svg></button>
         <p class="form-hint" id="rsvp-preview-note">Предпросмотр анкеты: отправка ответов пока не подключена.</p>
         <p id="rsvp-status" class="form-status" role="status" aria-live="polite"></p>
       </form>
     </section>
 
     <section class="guest-chat section" id="guest-chat" aria-labelledby="chat-title">
-      <img class="falling-leaves falling-leaves--left" src="assets/falling-leaves.png" alt="" aria-hidden="true" loading="lazy" width="72" height="230">
-      <img class="falling-leaves falling-leaves--right" src="assets/falling-leaves.png" alt="" aria-hidden="true" loading="lazy" width="72" height="230">
+      <img class="falling-leaves falling-leaves--left" src="assets/falling-leaves.webp" alt="" aria-hidden="true" loading="lazy" width="72" height="230">
+      <img class="falling-leaves falling-leaves--right" src="assets/falling-leaves.webp" alt="" aria-hidden="true" loading="lazy" width="72" height="230">
       <p class="eyebrow">НА СВЯЗИ</p>
       <h2 id="chat-title">Все<br><em>в одном чате</em></h2>
       <p class="body-copy">Здесь будут новости, организационные детали и фотографии после свадьбы.</p>
