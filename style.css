@@ -1481,3 +1481,7 @@ button:focus-visible {
 .gift-details .gift-illustration { margin: 22px auto; }
 .gift-details .body-copy { margin-bottom: 20px; }
 .wishlist-copy { font-size: 12px; line-height: 1.5; margin: 0 0 18px; }
+
+.choice-grid .choice--wide {
+  grid-column: 1 / -1;
+}
