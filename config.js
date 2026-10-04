@@ -28,7 +28,7 @@ window.WEDDING = {
     'assets/dress-relaxed-couple-wine.webp',
     'assets/dress-relaxed-man-olive.webp',
   ],
-  giftUrl: '',
+  giftUrl: 'https://t.me/olsterra',
   chatUrl: '',
   publicUrl: '',
   photoUrl: 'assets/couple-photo-lake.webp',
