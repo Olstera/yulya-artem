@@ -29,7 +29,7 @@ window.WEDDING = {
     'assets/dress-relaxed-man-olive.webp',
   ],
   giftUrl: 'https://t.me/olsterra',
-  chatUrl: '',
+  chatUrl: 'https://t.me/+Bl3wGeJy8CJlMTYy',
   publicUrl: '',
   photoUrl: 'assets/couple-photo-lake.webp',
   venueQuery: 'шатёр Русская Сказка',
