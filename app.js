@@ -130,6 +130,7 @@
     const fileInput = document.querySelector('#contest-photo');
     const prev = document.querySelector('#contest-prev');
     const next = document.querySelector('#contest-next');
+    const maxPhotos = 5;
 
     track.replaceChildren(...nominations.map((nomination, index) => {
       const slide = document.createElement('article');
@@ -204,6 +205,13 @@
       if (event.target === dialog) dialog.close();
     });
 
+    const validatePhotoCount = () => {
+      fileInput.setCustomValidity(fileInput.files.length > maxPhotos
+        ? `Можно выбрать не больше ${maxPhotos} фото за одну отправку.`
+        : '');
+    };
+    fileInput.addEventListener('change', validatePhotoCount);
+
     const decodeImage = file => new Promise((resolve, reject) => {
       const objectUrl = URL.createObjectURL(file);
       const image = new Image();
@@ -248,37 +256,46 @@
 
     form.addEventListener('submit', async event => {
       event.preventDefault();
+      validatePhotoCount();
       if (!form.reportValidity()) return;
       const button = form.querySelector('[type=submit]');
-      const file = fileInput.files[0];
+      const files = Array.from(fileInput.files || []);
       if (!settings.photoContestEndpoint) {
         status.textContent = 'Форма готова, но загрузка ещё не подключена. Фото не отправлено.';
         return;
       }
+      if (!files.length || files.length > maxPhotos) return;
 
       button.disabled = true;
-      status.textContent = 'Подготавливаем и отправляем фото…';
+      let uploaded = 0;
       try {
-        const imageData = await preparePhoto(file);
-        const payload = {
-          action: 'photoContest',
-          nomination: nominationInput.value,
-          guestName: form.elements.guestName.value.trim(),
-          table: form.elements.table.value.trim(),
-          imageData
-        };
-        const response = await fetch(settings.photoContestEndpoint, {
-          method: 'POST',
-          headers: {'Content-Type': 'text/plain;charset=utf-8'},
-          body: JSON.stringify(payload)
-        });
-        const result = await response.json();
-        if (!response.ok || !result.ok) throw new Error(result.message || 'Не удалось отправить фото.');
-        status.textContent = 'Фото отправлено. Спасибо за участие!';
+        for (let index = 0; index < files.length; index += 1) {
+          status.textContent = `Подготавливаем фото ${index + 1} из ${files.length}…`;
+          const imageData = await preparePhoto(files[index]);
+          const payload = {
+            action: 'photoContest',
+            nomination: nominationInput.value,
+            guestName: form.elements.guestName.value.trim(),
+            table: form.elements.table.value.trim(),
+            imageData
+          };
+          const response = await fetch(settings.photoContestEndpoint, {
+            method: 'POST',
+            headers: {'Content-Type': 'text/plain;charset=utf-8'},
+            body: JSON.stringify(payload)
+          });
+          const result = await response.json();
+          if (!response.ok || !result.ok) throw new Error(result.message || 'Не удалось отправить фото.');
+          uploaded += 1;
+          status.textContent = `Отправлено ${uploaded} из ${files.length} фото…`;
+        }
+        status.textContent = `${uploaded === 1 ? 'Фото отправлено' : `Отправлено ${uploaded} фото`}. Спасибо за участие!`;
         form.reset();
         window.setTimeout(() => dialog.close(), 1200);
       } catch (error) {
-        status.textContent = error.message || 'Не удалось отправить фото. Попробуйте ещё раз.';
+        status.textContent = uploaded
+          ? `Отправлено ${uploaded} из ${files.length} фото. Остальные не удалось отправить: ${error.message || 'попробуйте ещё раз.'}`
+          : error.message || 'Не удалось отправить фото. Попробуйте ещё раз.';
       } finally {
         button.disabled = false;
       }
