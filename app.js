@@ -117,6 +117,174 @@
     updateSlider();
   }
 
+  function initPhotoContest() {
+    const track = document.querySelector('#contest-slides');
+    const nominations = settings.contestNominations || [];
+    if (!track || !nominations.length) return;
+
+    const dialog = document.querySelector('#contest-dialog');
+    const form = document.querySelector('#contest-form');
+    const nominationInput = document.querySelector('#contest-nomination');
+    const selectedNomination = document.querySelector('#contest-selected');
+    const status = document.querySelector('#contest-status');
+    const fileInput = document.querySelector('#contest-photo');
+    const prev = document.querySelector('#contest-prev');
+    const next = document.querySelector('#contest-next');
+
+    track.replaceChildren(...nominations.map((nomination, index) => {
+      const slide = document.createElement('article');
+      slide.className = 'contest-slide';
+      slide.setAttribute('role', 'group');
+      slide.setAttribute('aria-roledescription', 'слайд');
+      slide.setAttribute('aria-label', `${index + 1} из ${nominations.length}`);
+
+      const number = document.createElement('span');
+      number.className = 'contest-slide-number';
+      number.textContent = String(index + 1).padStart(2, '0');
+      const eyebrow = document.createElement('span');
+      eyebrow.className = 'eyebrow';
+      eyebrow.textContent = `НОМИНАЦИЯ ${String(index + 1).padStart(2, '0')}`;
+      const title = document.createElement('h3');
+      title.textContent = nomination;
+      const button = document.createElement('button');
+      button.className = 'action-link contest-join';
+      button.type = 'button';
+      button.append(document.createTextNode('Участвовать в номинации'));
+      const arrow = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      arrow.setAttribute('viewBox', '0 0 24 24');
+      arrow.setAttribute('width', '18');
+      arrow.setAttribute('height', '18');
+      arrow.setAttribute('aria-hidden', 'true');
+      arrow.setAttribute('focusable', 'false');
+      arrow.classList.add('button-arrow');
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', 'M5 19 19 5M5 5h14v14');
+      arrow.append(path);
+      button.append(arrow);
+      button.addEventListener('click', () => {
+        nominationInput.value = nomination;
+        selectedNomination.textContent = nomination;
+        status.textContent = '';
+        form.reset();
+        nominationInput.value = nomination;
+        if (typeof dialog.showModal === 'function') dialog.showModal();
+        else dialog.setAttribute('open', '');
+      });
+      slide.append(number, eyebrow, title, button);
+      return slide;
+    }));
+
+    const slideStep = () => track.firstElementChild.getBoundingClientRect().width
+      + parseFloat(getComputedStyle(track).gap);
+    const currentSlide = () => Math.round(track.scrollLeft / slideStep());
+    const updateSlider = () => {
+      const index = currentSlide();
+      prev.disabled = index <= 0;
+      next.disabled = index >= track.children.length - 1;
+      document.querySelector('#contest-count').textContent = `${String(index + 1).padStart(2, '0')} / ${String(track.children.length).padStart(2, '0')}`;
+    };
+    const moveSlide = delta => track.scrollTo({
+      left: (currentSlide() + delta) * slideStep(),
+      behavior: reducedMotion.matches ? 'instant' : 'smooth'
+    });
+    prev.addEventListener('click', () => moveSlide(-1));
+    next.addEventListener('click', () => moveSlide(1));
+    track.addEventListener('scroll', updateSlider, {passive:true});
+    track.addEventListener('keydown', event => {
+      if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+        event.preventDefault();
+        moveSlide(event.key === 'ArrowRight' ? 1 : -1);
+      }
+    });
+    new ResizeObserver(updateSlider).observe(track);
+    updateSlider();
+
+    document.querySelector('#contest-close').addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', event => {
+      if (event.target === dialog) dialog.close();
+    });
+
+    const decodeImage = file => new Promise((resolve, reject) => {
+      const objectUrl = URL.createObjectURL(file);
+      const image = new Image();
+      image.onload = () => { URL.revokeObjectURL(objectUrl); resolve(image); };
+      image.onerror = () => { URL.revokeObjectURL(objectUrl); reject(new Error('unsupported-image')); };
+      image.src = objectUrl;
+    });
+
+    async function preparePhoto(file) {
+      if (!file || !file.type.startsWith('image/')) throw new Error('Выберите файл с фотографией.');
+      if (file.size > 20 * 1024 * 1024) throw new Error('Исходное фото должно быть меньше 20 МБ.');
+
+      let image;
+      try {
+        image = 'createImageBitmap' in window ? await createImageBitmap(file) : await decodeImage(file);
+      } catch {
+        throw new Error('Не удалось открыть фото. Попробуйте выбрать снимок в формате JPEG.');
+      }
+
+      let scale = Math.min(1, 1600 / Math.max(image.width, image.height));
+      let blob;
+      for (let attempt = 0; attempt < 6; attempt += 1) {
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.max(1, Math.round(image.width * scale));
+        canvas.height = Math.max(1, Math.round(image.height * scale));
+        canvas.getContext('2d').drawImage(image, 0, 0, canvas.width, canvas.height);
+        blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', Math.max(.5, .84 - attempt * .07)));
+        if (blob && blob.size <= 1_500_000) break;
+        scale *= .85;
+      }
+      image.close?.();
+      if (!blob || blob.size > 1_500_000) throw new Error('Не удалось уменьшить это фото для отправки. Выберите другое.');
+
+      const dataUrl = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(new Error('Не удалось подготовить фото.'));
+        reader.readAsDataURL(blob);
+      });
+      return dataUrl.split(',')[1];
+    }
+
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+      const button = form.querySelector('[type=submit]');
+      const file = fileInput.files[0];
+      if (!settings.photoContestEndpoint) {
+        status.textContent = 'Форма готова, но загрузка ещё не подключена. Фото не отправлено.';
+        return;
+      }
+
+      button.disabled = true;
+      status.textContent = 'Подготавливаем и отправляем фото…';
+      try {
+        const imageData = await preparePhoto(file);
+        const payload = {
+          action: 'photoContest',
+          nomination: nominationInput.value,
+          guestName: form.elements.guestName.value.trim(),
+          table: form.elements.table.value.trim(),
+          imageData
+        };
+        const response = await fetch(settings.photoContestEndpoint, {
+          method: 'POST',
+          headers: {'Content-Type': 'text/plain;charset=utf-8'},
+          body: JSON.stringify(payload)
+        });
+        const result = await response.json();
+        if (!response.ok || !result.ok) throw new Error(result.message || 'Не удалось отправить фото.');
+        status.textContent = 'Фото отправлено. Спасибо за участие!';
+        form.reset();
+        window.setTimeout(() => dialog.close(), 1200);
+      } catch (error) {
+        status.textContent = error.message || 'Не удалось отправить фото. Попробуйте ещё раз.';
+      } finally {
+        button.disabled = false;
+      }
+    });
+  }
+
   function initRsvp() {
     const form = document.querySelector('#rsvp-form');
     const toggleGroup = (id, visible, required = true) => {
@@ -203,7 +371,7 @@
 
     const selectors = [
       '.photo-branch', '.falling-leaves', '.hero-pumpkin img',
-      '.autumn-bridge img', '.gift-illustration img', '.map-card',
+      '.autumn-bridge img', '.gift-illustration img', '.map-card', '.contest-join',
       '.action-link', '.map-button', '.hero-bottom a', '.slider-controls button'
     ];
     const elements = [...document.querySelectorAll(selectors.join(','))]
@@ -250,6 +418,7 @@
   initPhoto();
   bindShortWords();
   initGallery();
+  initPhotoContest();
   initRsvp();
   initPaletteMotion();
   initElementMotion();

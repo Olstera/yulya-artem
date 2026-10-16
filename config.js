@@ -4,6 +4,18 @@ window.WEDDING = {
   rsvpDeadline: '2026-10-01',
   contact: { name: 'Оля', phone: '+79099624676' },
   rsvpEndpoint: 'https://script.google.com/macros/s/AKfycbxfvSosWJ3rkm_o6kYsjF2q4UnBK6LYxmU0Jr9jkCtEPPl6ac5JGjb2a8fEQNbrB4kl/exec',
+  photoContestEndpoint: 'https://script.google.com/macros/s/AKfycbxfvSosWJ3rkm_o6kYsjF2q4UnBK6LYxmU0Jr9jkCtEPPl6ac5JGjb2a8fEQNbrB4kl/exec',
+  contestNominations: [
+    'Самое трогательное фото',
+    'Фото с едой',
+    'Фото подружек невесты',
+    'Фото молодожёнов',
+    'Фото друзей жениха',
+    'Самое алкогольное фото',
+    'Самое смешное фото',
+    'Горячее фото',
+    'Фото с элементами акробатики'
+  ],
   galleryPhotos: [
     'assets/dress-relaxed-couple-brown.webp',
     'assets/dress-code-01.webp',
